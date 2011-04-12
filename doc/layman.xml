@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layman>
+  <overlay contact="himikof@gmail.com" name="neerc-linux" src="git://gitorious.org/neerc-linux/gentoo-overlay.git" status="unofficial" type="git">
+    <link>http://gitorious.org/neerc-linux</link>
+    <description>Ebuilds of misc packages related to the NEERC Linux project</description>
+  </overlay>
+</layman>
