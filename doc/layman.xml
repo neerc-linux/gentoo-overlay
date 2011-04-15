@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layman>
-  <overlay contact="himikof@gmail.com" name="neerc-linux" src="git://gitorious.org/neerc-linux/gentoo-overlay.git" status="unofficial" type="git">
-    <link>http://gitorious.org/neerc-linux</link>
-    <description>Ebuilds of misc packages related to the NEERC Linux project</description>
-  </overlay>
-</layman>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="official">
+    <name>neerc-linux</name>
+    <description>Ebuilds for misc packages related to the NEERC Linux project</description>
+    <homepage>http://gitorious.org/neerc-linux/gentoo-overlay</homepage>
+    <owner type="person">
+      <email>himikof@gmail.com</email>
+      <name>Nikita Ofitserov</name>
+    </owner>
+    <source type="git">git://gitorious.org/neerc-linux/gentoo-overlay.git</source>
+    <feed>http://gitorious.org/neerc-linux/gentoo-overlay.atom</feed>
+  </repo>
+</repositories>
