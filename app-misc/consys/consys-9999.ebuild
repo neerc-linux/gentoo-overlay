@@ -19,7 +19,20 @@ KEYWORDS="~x86 ~amd64"
 IUSE="+client server admin"
 
 DEPEND=""
-RDEPEND=""
+RDEPEND=">=dev-python/configobj-4.7.2
+	>=net-zope/zope-interface-3.5.3
+	>=dev-python/twisted-11.0.0
+	>=dev-python/twisted-conch-11.0.0
+	>=dev-python/py-notify-0.2.1
+	client? (
+		>=dev-python/python-daemon-1.6
+		>=dev-python/pygobject-2.20.0
+	)
+	server? (
+		>=dev-python/python-daemon-1.6
+		=dev-python/twistar-9999
+	)
+"
 
 DISTUTILS_SETUP_FILES=("setup-common.py")
 
