@@ -2,23 +2,35 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
-PYTHON_DEPEND="3"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="2.*"
+EAPI=3
 
-inherit git distutils
+PYTHON_DEPEND="2"
+
+inherit distutils git-2
 
 DESCRIPTION="A contest management system written in Python"
-HOMEPAGE="http://gitorious.org/neerc-linux/consys/"
-EGIT_REPO_URI="git://gitorious.org/neerc-linux/consys.git"
+HOMEPAGE="http://gitorious.org/neerc-linux/consys"
 SRC_URI=""
+EGIT_REPO_URI="git://gitorious.org/neerc-linux/consys.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE=""
+IUSE="+client server admin"
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND=""
 
+DISTUTILS_SETUP_FILES=("setup-common.py")
+
+if use client; then
+	DISTUTILS_SETUP_FILES+=("setup-client.py")
+fi
+
+if use server; then
+	DISTUTILS_SETUP_FILES+=("setup-server.py")
+fi
+
+if use admin; then
+	DISTUTILS_SETUP_FILES+=("setup-admin.py")
+fi
