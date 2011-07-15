@@ -47,3 +47,30 @@ fi
 if use admin; then
 	DISTUTILS_SETUP_FILES+=("setup-admin.py")
 fi
+
+
+src_install() {
+	distutils_src_install
+
+	insinto /etc/consys
+	doins "${FILESDIR}"/consys.conf || die
+
+	dodir /var/lib/consys || die
+	if use server; then
+		if [ ! -e /var/lib/consys/server.db ]; then
+			sqlite3 "${D}"/var/lib/consys/server.db < "${S}"/server.sql || die
+		fi
+	fi
+
+	dodir /var/log/consys || die
+
+	newinitd "${FILESDIR}"/consys.initd consys || die
+	newconfd "${FILESDIR}"/consys.confd consys || die
+
+	if use server; then
+		dosym /etc/init.d/consys /etc/init.d/consys.server
+	fi
+	if use client; then
+		dosym /etc/init.d/consys /etc/init.d/consys.client
+	fi
+}

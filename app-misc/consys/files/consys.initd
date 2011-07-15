@@ -1,0 +1,41 @@
+#!/sbin/runscript
+
+CONFIG_PATH=${CONFIG_PATH:-/etc/consys/consys.conf}
+MODE=${SVCNAME#*.}
+MODE=${MODE:-server}
+BIN_PATH=/usr/bin/consys-${MODE}
+
+depend() {
+    use net
+}
+
+checkconfig() {
+    if [ ! -f "${BIN_PATH}" ]; then
+    	eerror "Consys ${MODE} is not available"
+	return 1
+    fi
+    if [ ! -f "${CONFIG_PATH}" ]; then
+        eerror "Config file not found"
+        return 1
+    fi
+
+    return 0
+}
+
+start() {
+    checkconfig || return $?
+    
+    ebegin "Starting Consys ${MODE}"
+    start-stop-daemon --start \
+        --pidfile /var/run/consys-${MODE}.pid --make-pidfile \
+        -i --exec ${BIN_PATH} \
+        -- -c "${CONFIG_PATH}" ${CONSYS_OPTIONS}
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping Consys ${MODE}"
+    start-stop-daemon --stop \
+        -i --pidfile /var/run/consys-${MODE}.pid
+    eend $?
+}
