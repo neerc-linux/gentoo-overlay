@@ -27,7 +27,7 @@ start() {
     
     ebegin "Starting Consys ${MODE}"
     start-stop-daemon --start \
-        --pidfile /var/run/consys-${MODE}.pid --make-pidfile \
+        --pidfile /var/run/consys/${MODE}.pid --make-pidfile \
         -i --exec ${BIN_PATH} \
         -- -c "${CONFIG_PATH}" ${CONSYS_OPTIONS}
     eend $?
@@ -36,6 +36,6 @@ start() {
 stop() {
     ebegin "Stopping Consys ${MODE}"
     start-stop-daemon --stop \
-        -i --pidfile /var/run/consys-${MODE}.pid
+        -i --pidfile /var/run/consys/${MODE}.pid
     eend $?
 }

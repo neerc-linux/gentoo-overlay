@@ -6,7 +6,7 @@ EAPI=3
 
 PYTHON_DEPEND="2"
 
-inherit distutils git-2
+inherit distutils git-2 eutils
 
 DESCRIPTION="A contest management system written in Python"
 HOMEPAGE="http://gitorious.org/neerc-linux/consys"
@@ -49,20 +49,35 @@ if use admin; then
 fi
 
 
+pkg_setup() {
+	enewgroup consys
+	enewuser consys -1 -1 /etc/consys consys
+}
+
 src_install() {
 	distutils_src_install
 
 	insinto /etc/consys
 	doins "${FILESDIR}"/consys.conf || die
+	dodir /etc/consys/keys || die
+	fowners root:consys /etc/consys /etc/consys/keys /etc/consys/consys.conf
+	fperms 0750 /etc/consys /etc/consys/keys
+	fperms 0640 /etc/consys/consys.conf
 
 	dodir /var/lib/consys || die
+	fowners root:consys /var/lib/consys
+	fperms 0770 /var/lib/consys
 	if use server; then
 		if [ ! -e /var/lib/consys/server.db ]; then
 			sqlite3 "${D}"/var/lib/consys/server.db < "${S}"/server.sql || die
+			fowners root:consys /var/lib/consys/server.db
+			fperms 0660 /var/lib/consys/server.db
 		fi
 	fi
 
-	dodir /var/log/consys || die
+	dodir /var/{log,run}/consys || die
+	fowners root:consys /var/{log,run}/consys
+	fperms 0770 /var/{log,run}/consys
 
 	newinitd "${FILESDIR}"/consys.initd consys || die
 	newconfd "${FILESDIR}"/consys.confd consys || die
